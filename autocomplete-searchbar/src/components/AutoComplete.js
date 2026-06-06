@@ -6,17 +6,35 @@ const AutoComplete = () => {
   const [input, setInput] = useState("");
   const [result, setResult] = useState([]);
   const [showResult , setShowResult] = useState (false);
+  const [cache,setCache] = useState({});
 
   const fetchData = async() => {
+
+    if(cache[input])
+    {  
+        console.log("Cache return input",input)
+        setResult(cache[input]);
+        return;
+    }
+
+    console.log("API Call");
     const data = await fetch(`https://dummyjson.com/recipes/search?q=${input}`);
     const json = await data.json();
 
     setResult(json?.recipes);
+
+
+    setCache(prev =>({...prev ,[input]:json?.recipes}))
   };
 
   useEffect(() => {
-    fetchData();
-  }, [input]);
+     
+   const timer =  setTimeout (()=>fetchData() ,300);
+
+    return ()=>{
+      clearTimeout(timer)
+    };
+  }, [input,cache]);
 
   return (
     <div className="autocomplete-container">
