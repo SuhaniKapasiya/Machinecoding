@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./AutoComplete.css";
-
 const AutoComplete = () => {
 
   const [input, setInput] = useState("");
@@ -21,7 +20,7 @@ const AutoComplete = () => {
     const data = await fetch(`https://dummyjson.com/recipes/search?q=${input}`);
     const json = await data.json();
 
-    setResult(json?.recipes);
+    setResult(json?.recipes); 
 
 
     setCache(prev =>({...prev ,[input]:json?.recipes}))
@@ -41,7 +40,7 @@ const AutoComplete = () => {
       <h1>🔍 AutoComplete Search Bar</h1>
 
       <input
-        type="text"
+        type="text" 
         value={input}
         className="search-input"
         onChange={(e) => setInput(e.target.value)}
